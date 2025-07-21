@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn Your FrameRate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            color: white;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+            padding: 30px 50px;
+            border-radius: 10px;
+        }
+        h1 {
+            color: #0056b3;
+            margin-bottom: 20px;
+        }
+        p {
+            color: black;
+        }
+        #fpsDisplay {
+            font-size: 3em;
+            font-weight: bold;
+            color: #28a745; /* Verde para destaque */
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Learn Your FrameRate</h1>
+        <p>Seu Frame Rate atual é:</p>
+        <div id="fpsDisplay">--</div>
+    </div>
+
+    <script>
+        const fpsDisplay = document.getElementById('fpsDisplay');
+        let frames = 0;
+        let lastTime = performance.now();
+        let fps = 0;
+        const fpsHistory = [];
+        const maxHistory = 60; // Manter um histórico dos últimos 60 FPS para suavização
+
+        function updateFps() {
+            const currentTime = performance.now(); // Obtém o tempo atual em milissegundos
+            const deltaTime = currentTime - lastTime; // Calcula a diferença de tempo desde o último quadro
+            lastTime = currentTime;
+
+            if (deltaTime > 0) { // Evita divisão por zero
+                const currentFps = 1000 / deltaTime; // Calcula o FPS para este quadro (1000 ms em 1 segundo)
+                fpsHistory.push(currentFps);
+
+                if (fpsHistory.length > maxHistory) {
+                    fpsHistory.shift(); // Remove o FPS mais antigo se o histórico for muito grande
+                }
+
+                // Calcula a média dos FPS no histórico para suavizar o valor
+                const sumFps = fpsHistory.reduce((a, b) => a + b, 0);
+                fps = sumFps / fpsHistory.length;
+            }
+
+            fpsDisplay.textContent = Math.round(fps); // Exibe o FPS arredondado
+            requestAnimationFrame(updateFps); // Solicita que a função seja chamada novamente no próximo quadro
+        }
+
+        // Inicia a atualização do FPS
+        requestAnimationFrame(updateFps);
+    </script>
+</body>
+</html>
