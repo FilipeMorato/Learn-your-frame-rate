@@ -31,7 +31,7 @@
         #fpsDisplay {
             font-size: 3em;
             font-weight: bold;
-            color: #28a745; /* Verde para destaque */
+            color: #28a745;
             margin-top: 15px;
         }
     </style>
@@ -52,7 +52,7 @@
         const maxHistory = 60; // Manter um histórico dos últimos 60 FPS para suavização
 
         function updateFps() {
-            const currentTime = performance.now(); // Obtém o tempo atual em milissegundos
+            const currentTime = performance.now();
             const deltaTime = currentTime - lastTime; // Calcula a diferença de tempo desde o último quadro
             lastTime = currentTime;
 
@@ -69,11 +69,10 @@
                 fps = sumFps / fpsHistory.length;
             }
 
-            fpsDisplay.textContent = Math.round(fps); // Exibe o FPS arredondado
-            requestAnimationFrame(updateFps); // Solicita que a função seja chamada novamente no próximo quadro
+            fpsDisplay.textContent = Math.round(fps);
+            requestAnimationFrame(updateFps);
         }
-
-        // Inicia a atualização do FPS
+        
         requestAnimationFrame(updateFps);
     </script>
 </body>
